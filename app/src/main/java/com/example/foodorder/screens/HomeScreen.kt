@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.example.foodorder.R
-import com.example.foodorder.components.FoodComponent
+import com.example.foodorder.components.FoodChipComponent
 import com.example.foodorder.components.FoodItem
 
 // Data classes
@@ -138,7 +138,7 @@ fun HomeScreen(
             contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
             items(foodTypes) { foodType ->
-                FoodComponent(imageResId = foodType.imageResId, name = foodType.name)
+                FoodChipComponent(imageResId = foodType.imageResId, name = foodType.name)
                 Spacer(modifier = Modifier.width(8.dp))
             }
         }

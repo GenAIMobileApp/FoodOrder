@@ -21,7 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.foodorder.components.FoodComponent
+import com.example.foodorder.components.FoodChipComponent
 import com.example.foodorder.components.FoodItem
 
 class MainActivity : ComponentActivity() {
@@ -65,8 +65,8 @@ fun FoodAppComponentsPreview() {
         Surface {
             Column {
                 Row (horizontalArrangement = Arrangement.SpaceEvenly) {
-                    FoodComponent(R.drawable.burger, "Burger")
-                    FoodComponent(R.drawable.chicken_fingers, "Roasted ")
+                    FoodChipComponent(R.drawable.burger, "Burger")
+                    FoodChipComponent(R.drawable.chicken_fingers, "Roasted ")
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))

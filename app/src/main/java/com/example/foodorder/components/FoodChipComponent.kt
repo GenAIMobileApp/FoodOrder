@@ -16,11 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.foodorder.R
 
 
 @Composable
-fun FoodComponent(imageResId: Int, name: String) {
+fun FoodChipComponent(imageResId: Int, name: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(16.dp)
@@ -45,6 +47,17 @@ fun FoodComponent(imageResId: Int, name: String) {
         Text(
             text = name,
             style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Preview
+@Composable
+fun FoodComponentPreview() {
+    MaterialTheme {
+        FoodChipComponent(
+            imageResId = R.drawable.burger,
+            name = "Food Name"
         )
     }
 }

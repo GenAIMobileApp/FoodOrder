@@ -1,5 +1,6 @@
 package com.example.foodorder.screens
 
+import FilterChip
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,7 +11,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,11 +84,18 @@ fun RestaurantDetailsScreen(restaurant: Restaurant, foodItems: List<Food>) {
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
                 items(restaurant.cuisines) { cuisine ->
-                    Chip(
-                        onClick = { /* Handle chip click */ },
-                        label = { Text(cuisine) },
-                        modifier = Modifier.padding(end = 8.dp)
+
+                    FilterChip(
+                        text = cuisine,
+                        selected = true,
+                        onClick = { /* Handle click */ }
                     )
+
+//                    Chip(
+//                        onClick = { /* Handle chip click */ },
+//                        label = { Text(cuisine) },
+//                        modifier = Modifier.padding(end = 8.dp)
+//                    )
                 }
             }
 
@@ -122,7 +139,8 @@ fun RestaurantDetailsScreen(restaurant: Restaurant, foodItems: List<Food>) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.height(400.dp)
             ) {
-                items(foodItems) { foodItem ->
+                items(foodItems.size) { index ->
+                    val foodItem = foodItems[index]
                     FoodItem(
                         name = foodItem.name,
                         distance = foodItem.distance,
