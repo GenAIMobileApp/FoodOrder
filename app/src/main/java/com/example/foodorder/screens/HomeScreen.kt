@@ -36,7 +36,7 @@ data class Restaurant(
     val cuisines: List<String>,
     val description: String
 )
-data class Food(val name: String, val distance: String, val rating: Float, val reviews: Int, val price: String, val isFavorite: Boolean = false)
+data class Food(val name: String, val distance: String, val rating: Float, val reviews: Int, val price: String, val isFavorite: Boolean = false, val description: String = "Fresh and healthy", val imageRes: Int = R.drawable.pizza,)
 
 // Sample data
 val sampleFoodTypes = listOf(
@@ -98,14 +98,14 @@ val sampleRestaurants = listOf(
 )
 
 val sampleFoodItems = listOf(
-    Food("Naked Jackfruit Burrito Bowl", "2.2 away from you", 4.9f, 1100, "\$20.00"),
-    Food("NY Chicken Roll - Large", "2.2 away from you", 4.9f, 1100, "\$20.00"),
-    Food("Kochchi Prawn Spaghetti", "2.2 away from you", 4.9f, 1100, "\$20.00"),
-    Food("Double Chicken & Cheese Fiesta - Pizza", "2.2 away from you", 4.9f, 1100, "\$20.00"),
-    Food("Veggie Supreme", "2.5 away from you", 4.7f, 950, "\$18.00"),
-    Food("Spicy Tofu Stir Fry", "3.0 away from you", 4.8f, 1000, "\$15.00"),
-    Food("Classic Margherita", "1.8 away from you", 4.6f, 800, "\$16.00"),
-    Food("Grilled Salmon Salad", "2.7 away from you", 4.8f, 1050, "\$22.00")
+    Food("Naked Jackfruit Burrito Bowl", "2.2 away from you", 4.9f, 1100, "\$20.00", imageRes = R.drawable.pizza),
+    Food("NY Chicken Roll - Large", "2.2 away from you", 4.9f, 1100, "\$20.00", imageRes = R.drawable.restaurant_1),
+    Food("Kochchi Prawn Spaghetti", "2.2 away from you", 4.9f, 1100, "\$20.00", imageRes = R.drawable.food_item_2),
+    Food("Double Chicken & Cheese Fiesta - Pizza", "2.2 away from you", 4.9f, 1100, "\$20.00", imageRes = R.drawable.food_item_3),
+    Food("Veggie Supreme", "2.5 away from you", 4.7f, 950, "\$18.00", imageRes = R.drawable.food_item_4),
+    Food("Spicy Tofu Stir Fry", "3.0 away from you", 4.8f, 1000, "\$15.00", imageRes = R.drawable.food_item_1),
+    Food("Classic Margherita", "1.8 away from you", 4.6f, 800, "\$16.00", imageRes = R.drawable.food_item_2),
+    Food("Grilled Salmon Salad", "2.7 away from you", 4.8f, 1050, "\$22.00", imageRes = R.drawable.food_item_2)
 )
 
 @Composable

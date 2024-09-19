@@ -1,6 +1,8 @@
 package com.example.foodorder.screens
 
 import FilterChip
+import FoodItemAdd
+import ItemCounter
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -90,12 +92,6 @@ fun RestaurantDetailsScreen(restaurant: Restaurant, foodItems: List<Food>) {
                         selected = true,
                         onClick = { /* Handle click */ }
                     )
-
-//                    Chip(
-//                        onClick = { /* Handle chip click */ },
-//                        label = { Text(cuisine) },
-//                        modifier = Modifier.padding(end = 8.dp)
-//                    )
                 }
             }
 
@@ -134,21 +130,23 @@ fun RestaurantDetailsScreen(restaurant: Restaurant, foodItems: List<Food>) {
             // Food Items Grid
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.height(400.dp)
+                contentPadding = PaddingValues(2.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.height(300.dp)
             ) {
                 items(foodItems.size) { index ->
                     val foodItem = foodItems[index]
-                    FoodItem(
-                        name = foodItem.name,
-                        distance = foodItem.distance,
+                    FoodItemAdd(
+                        title = foodItem.name,
+                        description = foodItem.description,
                         rating = foodItem.rating,
                         reviews = foodItem.reviews,
                         price = foodItem.price,
-                        isFavorite = foodItem.isFavorite,
-                        onFavoriteClick = { /* Handle favorite click */ }
+                        distance = foodItem.distance,
+                        onAddClick = { /* Handle add click */ },
+                        onFavoriteClick = {},
+                        imageRes = foodItem.imageRes
                     )
                 }
             }
@@ -169,19 +167,13 @@ fun RestaurantDetailsScreen(restaurant: Restaurant, foodItems: List<Food>) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconButton(onClick = { if (quantity > 1) quantity-- }) {
-                        Text("-", style = MaterialTheme.typography.headlineSmall)
-                    }
-                    Text(
-                        text = quantity.toString(),
-                        style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.padding(horizontal = 8.dp)
-                    )
-                    IconButton(onClick = { quantity++ }) {
-                        Text("+", style = MaterialTheme.typography.headlineSmall)
-                    }
-                }
+                var count by remember { mutableIntStateOf(0) }
+                ItemCounter(
+                    count = count,
+                    onIncrement = { count++ },
+                    onDecrement = { if (count > 0) count-- },
+                    modifier = Modifier.padding(start = 16.dp)
+                )
                 Button(
                     onClick = { /* Handle add to cart */ },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA500))
