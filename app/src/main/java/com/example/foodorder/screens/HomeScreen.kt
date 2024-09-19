@@ -27,7 +27,15 @@ import com.example.foodorder.components.FoodItem
 
 // Data classes
 data class FoodType(val imageResId: Int, val name: String)
-data class Restaurant(val imageResId: Int, val name: String, val distance: String, val rating: Float, val reviews: Int)
+data class Restaurant(
+    val imageResId: Int,
+    val name: String,
+    val distance: String,
+    val rating: Float,
+    val reviews: Int,
+    val cuisines: List<String>,
+    val description: String
+)
 data class Food(val name: String, val distance: String, val rating: Float, val reviews: Int, val price: String, val isFavorite: Boolean = false)
 
 // Sample data
@@ -42,11 +50,51 @@ val sampleFoodTypes = listOf(
 )
 
 val sampleRestaurants = listOf(
-    Restaurant(R.drawable.restaurant_1, "Egg Benedict with Capsicum", "2.2 away from you", 4.9f, 1100),
-    Restaurant(R.drawable.restaurant_2, "Kashmiri Biryani and Ka", "2.2 away from you", 4.9f, 1100),
-    Restaurant(R.drawable.restaurant_1, "Spicy Thai", "1.5 away from you", 4.7f, 950),
-    Restaurant(R.drawable.restaurant_2, "Italian Delight", "3.0 away from you", 4.8f, 1200),
-    Restaurant(R.drawable.restaurant_1, "Burger Palace", "2.8 away from you", 4.6f, 800)
+    Restaurant(
+        R.drawable.restaurant_1,
+        "Egg Benedict with Capsicum",
+        "2.2 away from you",
+        4.9f,
+        1100,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    ),
+    Restaurant(
+        R.drawable.restaurant_2,
+        "Kashmiri Biryani and Ka",
+        "2.2 away from you",
+        4.9f,
+        1100,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    ),
+    Restaurant(
+        R.drawable.restaurant_1,
+        "Spicy Thai",
+        "1.5 away from you",
+        4.7f,
+        950,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    ),
+    Restaurant(
+        R.drawable.restaurant_2,
+        "Italian Delight",
+        "3.0 away from you",
+        4.8f,
+        1200,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    ),
+    Restaurant(
+        R.drawable.restaurant_1,
+        "Burger Palace",
+        "2.8 away from you",
+        4.6f,
+        800,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    )
 )
 
 val sampleFoodItems = listOf(
@@ -196,9 +244,33 @@ fun SearchBar(
 }
 
 val sampleRestaurantsEn = listOf(
-    Restaurant(R.drawable.restaurant_1, "Egg Benedict with Capsicum", "2.2 miles away", 4.9f, 1100),
-    Restaurant(R.drawable.restaurant_2, "Kashmiri Biryani and Ka", "2.2 miles away", 4.9f, 1100),
-    Restaurant(R.drawable.restaurant_1, "Spicy Thai", "1.5 miles away", 4.7f, 950)
+    Restaurant(
+        R.drawable.restaurant_1,
+        "Egg Benedict with Capsicum",
+        "2.2 miles away",
+        4.9f,
+        1100,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    ),
+    Restaurant(
+        R.drawable.restaurant_2,
+        "Kashmiri Biryani and Ka",
+        "2.2 miles away",
+        4.9f,
+        1100,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    ),
+    Restaurant(
+        R.drawable.restaurant_1,
+        "Spicy Thai",
+        "1.5 miles away",
+        4.7f,
+        950,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    )
 )
 
 val sampleFoodItemsEn = listOf(
@@ -218,9 +290,33 @@ val sampleFoodTypesEs = listOf(
 )
 
 val sampleRestaurantsEs = listOf(
-    Restaurant(R.drawable.restaurant_1, "Huevos Benedictinos con Pimiento", "3,5 km de distancia", 4.9f, 1100),
-    Restaurant(R.drawable.restaurant_2, "Biryani de Cachemira y Ka", "3,5 km de distancia", 4.9f, 1100),
-    Restaurant(R.drawable.restaurant_1, "Tailandés Picante", "2,4 km de distancia", 4.7f, 950)
+    Restaurant(
+        R.drawable.restaurant_1,
+        "Huevos Benedictinos con Pimiento",
+        "3,5 km de distancia",
+        4.9f,
+        1100,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    ),
+    Restaurant(
+        R.drawable.restaurant_2,
+        "Biryani de Cachemira y Ka",
+        "3,5 km de distancia",
+        4.9f,
+        1100,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    ),
+    Restaurant(
+        R.drawable.restaurant_1,
+        "Tailandés Picante",
+        "2,4 km de distancia",
+        4.7f,
+        950,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    )
 )
 
 val sampleFoodItemsEs = listOf(
@@ -240,9 +336,33 @@ val sampleFoodTypesAr = listOf(
 )
 
 val sampleRestaurantsAr = listOf(
-    Restaurant(R.drawable.restaurant_1, "بيض بينديكت مع الفلفل", "على بعد 3.5 كم", 4.9f, 1100),
-    Restaurant(R.drawable.restaurant_2, "برياني كشميري و كا", "على بعد 3.5 كم", 4.9f, 1100),
-    Restaurant(R.drawable.restaurant_1, "تايلندي حار", "على بعد 2.4 كم", 4.7f, 950)
+    Restaurant(
+        R.drawable.restaurant_1,
+        "بيض بينديكت مع الفلفل",
+        "على بعد 3.5 كم",
+        4.9f,
+        1100,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    ),
+    Restaurant(
+        R.drawable.restaurant_2,
+        "برياني كشميري و كا",
+        "على بعد 3.5 كم",
+        4.9f,
+        1100,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    ),
+    Restaurant(
+        R.drawable.restaurant_1,
+        "تايلندي حار",
+        "على بعد 2.4 كم",
+        4.7f,
+        950,
+        listOf("American", "Breakfast", "Brunch"),
+        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
+    )
 )
 
 val sampleFoodItemsAr = listOf(
