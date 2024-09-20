@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun FilterChip(
+fun FoodFilterChip(
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
@@ -32,7 +32,7 @@ fun FilterChip(
 @Preview(showBackground = true)
 @Composable
 fun FilterChipPreview() {
-    FilterChip(
+    FoodFilterChip(
         text = "Chicken",
         selected = true,
         onClick = { /* Handle click */ }

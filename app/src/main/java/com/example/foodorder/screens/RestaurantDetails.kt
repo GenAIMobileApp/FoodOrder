@@ -1,6 +1,6 @@
 package com.example.foodorder.screens
 
-import FilterChip
+import FoodFilterChip
 import FoodItemAdd
 import ItemCounter
 import androidx.compose.foundation.*
@@ -87,7 +87,7 @@ fun RestaurantDetailsScreen(restaurant: Restaurant, foodItems: List<Food>) {
             ) {
                 items(restaurant.cuisines) { cuisine ->
 
-                    FilterChip(
+                    FoodFilterChip(
                         text = cuisine,
                         selected = true,
                         onClick = { /* Handle click */ }
