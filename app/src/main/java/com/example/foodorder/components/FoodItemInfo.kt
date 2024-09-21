@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun FoodItem(
+fun FoodItemInfo(
     title: String,
     distance: String,
     rating: Float,
@@ -109,7 +109,7 @@ fun FoodItem(
 @Preview(showBackground = true)
 @Composable
 fun FoodItemPreview2() {
-    FoodItem(
+    FoodItemInfo(
         title = "Eggs Benedict with Capsicum",
         distance = "2.2",
         rating = 4.9f,

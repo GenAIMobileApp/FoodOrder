@@ -2,14 +2,12 @@ package com.example.foodorder.screens
 
 import FoodFilterChip
 import FoodItemAdd
+import FoodItemInfo
 import ItemCounter
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -25,13 +23,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foodorder.R
-import com.example.foodorder.components.FoodItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurantDetails(data: RestaurantDetailsData, onBackClick: () -> Unit) {
     var selectedCuisine by remember { mutableStateOf("") }
-    var itemCount by remember { mutableStateOf(1) }
+    var itemCount by remember { mutableIntStateOf(1) }
 
     Scaffold(
         topBar = {
@@ -113,14 +110,15 @@ fun RestaurantDetails(data: RestaurantDetailsData, onBackClick: () -> Unit) {
 
             // Restaurant Details
             item {
-                FoodItem(
-                    name = data.restaurant.name,
+                FoodItemInfo(
+                    title = data.restaurant.name,
                     distance = data.restaurant.distance,
                     rating = data.restaurant.rating,
                     reviews = data.restaurant.reviews,
-                    price = "", // Assuming no price for restaurant
+                    price = 3.00f, // Assuming no price for restaurant
                     isFavorite = false,
-                    onFavoriteClick = { /* TODO */ }
+                    onFavoriteClick = { /* TODO */ },
+                    onNavigationClick =  { /* TODO */ }
                 )
             }
 
