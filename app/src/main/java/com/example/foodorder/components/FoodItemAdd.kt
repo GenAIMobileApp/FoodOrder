@@ -30,10 +30,11 @@ fun FoodItemAdd(
     price: String,
     distance: String,
     onFavoriteClick: () -> Unit,
-    onAddClick: () -> Unit
+    onAddClick: () -> Unit,
+    modifier: Modifier=Modifier
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .width(220.dp)
             .padding(8.dp)
             .background(Color.White),

@@ -1,192 +1,131 @@
 package com.example.foodorder.screens
 
+import FoodItemAdd
 import NearbyRestaurantCard
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.example.foodorder.R
 import com.example.foodorder.components.FoodChipComponent
-import com.example.foodorder.components.FoodItem
-
-// Data classes
-data class FoodType(val imageResId: Int, val name: String)
-data class Restaurant(
-    val imageResId: Int,
-    val name: String,
-    val distance: String,
-    val rating: Float,
-    val reviews: Int,
-    val cuisines: List<String>,
-    val description: String
-)
-data class Food(val name: String, val distance: String, val rating: Float, val reviews: Int, val price: String, val isFavorite: Boolean = false, val description: String = "Fresh and healthy", val imageRes: Int = R.drawable.pizza,)
-
-// Sample data
-val sampleFoodTypes = listOf(
-    FoodType(R.drawable.burger, "Burger"),
-    FoodType(R.drawable.pizza, "Pizza"),
-    FoodType(R.drawable.taco, "Mexican"),
-    FoodType(R.drawable.chicken_fingers, "Chicken"),
-    FoodType(R.drawable.burger, "Indian"),
-    FoodType(R.drawable.pizza, "Italian"),
-    FoodType(R.drawable.taco, "Japanese")
-)
-
-val sampleRestaurants = listOf(
-    Restaurant(
-        R.drawable.restaurant_1,
-        "Egg Benedict with Capsicum",
-        "2.2 away from you",
-        4.9f,
-        1100,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    ),
-    Restaurant(
-        R.drawable.restaurant_2,
-        "Kashmiri Biryani and Ka",
-        "2.2 away from you",
-        4.9f,
-        1100,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    ),
-    Restaurant(
-        R.drawable.restaurant_1,
-        "Spicy Thai",
-        "1.5 away from you",
-        4.7f,
-        950,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    ),
-    Restaurant(
-        R.drawable.restaurant_2,
-        "Italian Delight",
-        "3.0 away from you",
-        4.8f,
-        1200,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    ),
-    Restaurant(
-        R.drawable.restaurant_1,
-        "Burger Palace",
-        "2.8 away from you",
-        4.6f,
-        800,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    )
-)
-
-val sampleFoodItems = listOf(
-    Food("Naked Jackfruit Burrito Bowl", "2.2 away from you", 4.9f, 1100, "\$20.00", imageRes = R.drawable.pizza),
-    Food("NY Chicken Roll - Large", "2.2 away from you", 4.9f, 1100, "\$20.00", imageRes = R.drawable.restaurant_1),
-    Food("Kochchi Prawn Spaghetti", "2.2 away from you", 4.9f, 1100, "\$20.00", imageRes = R.drawable.food_item_2),
-    Food("Double Chicken & Cheese Fiesta - Pizza", "2.2 away from you", 4.9f, 1100, "\$20.00", imageRes = R.drawable.food_item_3),
-    Food("Veggie Supreme", "2.5 away from you", 4.7f, 950, "\$18.00", imageRes = R.drawable.food_item_4),
-    Food("Spicy Tofu Stir Fry", "3.0 away from you", 4.8f, 1000, "\$15.00", imageRes = R.drawable.food_item_1),
-    Food("Classic Margherita", "1.8 away from you", 4.6f, 800, "\$16.00", imageRes = R.drawable.food_item_2),
-    Food("Grilled Salmon Salad", "2.7 away from you", 4.8f, 1050, "\$22.00", imageRes = R.drawable.food_item_2)
-)
 
 @Composable
-fun HomeScreen(
-    foodTypes: List<FoodType>,
-    restaurants: List<Restaurant>,
-    foodItems: List<Food>
-) {
+fun HomeScreen(data: HomeScreenData) {
     var searchQuery by remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(bottom = 16.dp)
     ) {
-        AddressPicker(
-            address = "1901 Thornridge Cir. Shiloh...",
-            onAddressClick = { /* Handle address click */ }
-        )
+        // Address Picker
+        item {
+            AddressPicker(
+                address = "1901 Thornridge Cir. Shiloh...",
+                onAddressClick = { /* Handle address click */ }
+            )
+        }
 
-        SearchBar(
-            query = searchQuery,
-            onQueryChange = { searchQuery = it },
-            onSearch = { /* Handle search */ },
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-        )
+        // Search Input
+        item {
+            SearchBar(
+                query = searchQuery,
+                onQueryChange = { searchQuery = it },
+                onSearch = { /* Handle search */ },
+                modifier = Modifier.padding(16.dp)
+            )
+        }
 
-        LazyRow(
-            modifier = Modifier.padding(vertical = 8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp)
-        ) {
-            items(foodTypes) { foodType ->
-                FoodChipComponent(imageResId = foodType.imageResId, name = foodType.name)
-                Spacer(modifier = Modifier.width(8.dp))
+        // Food Categories
+        item {
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(data.foodCategories) { category ->
+                    FoodChipComponent(
+                        imageResId = category.imageResId,
+                        name = category.name
+                    )
+                }
             }
         }
 
-        Text(
-            "Nearby hotels",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-        LazyRow(
-            modifier = Modifier.padding(bottom = 8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp)
-        ) {
-            items(restaurants) { restaurant ->
-                NearbyRestaurantCard(
-                    imageResId = restaurant.imageResId,
-                    name = restaurant.name,
-                    distance = restaurant.distance,
-                    rating = restaurant.rating,
-                    reviews = restaurant.reviews
-                )
-                Spacer(modifier = Modifier.width(8.dp))
+        // Nearby Hotels
+        item {
+            Text(
+                "Nearby hotels",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+
+        item {
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(data.nearbyRestaurants) { restaurant ->
+                    NearbyRestaurantCard(
+                        imageResId = restaurant.imageResId,
+                        name = restaurant.name,
+                        distance = restaurant.distance,
+                        rating = restaurant.rating,
+                        reviews = restaurant.reviews
+                    )
+                }
             }
         }
 
-        Text(
-            "Recommended for you",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.height(400.dp) // Adjust height as needed
-        ) {
-            items(foodItems) { foodItem ->
-                FoodItem(
-                    name = foodItem.name,
-                    distance = foodItem.distance,
-                    rating = foodItem.rating,
-                    reviews = foodItem.reviews,
-                    price = foodItem.price,
-                    isFavorite = foodItem.isFavorite,
-                    onFavoriteClick = { /* Handle favorite click */ }
-                )
+        // Recommended Food Items
+        item {
+            Text(
+                "Recommended for you",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+
+        items(data.recommendedFoodItems.chunked(2)) { rowItems ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                rowItems.forEach { foodItem ->
+                    FoodItemAdd(
+                        imageRes = foodItem.imageRes,
+                        title = foodItem.title,
+                        description = foodItem.description,
+                        rating = foodItem.rating,
+                        reviews = foodItem.reviews,
+                        price = foodItem.price,
+                        distance = foodItem.distance,
+                        onFavoriteClick = { /* Handle favorite click */ },
+                        onAddClick = { /* Handle add click */ },
+                        modifier = Modifier.weight(1f)
+                    )
+                    if (rowItems.size == 2 && rowItems.last() != foodItem) {
+                        Spacer(modifier = Modifier.width(16.dp))
+                    }
+                }
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -199,226 +138,129 @@ fun AddressPicker(address: String, onAddressClick: () -> Unit) {
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Icon(
+            painter = painterResource(id = android.R.drawable.ic_menu_mylocation),
+            contentDescription = "Location"
+        )
+        Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = address,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.weight(1f)
         )
         IconButton(onClick = onAddressClick) {
             Icon(
-                imageVector = Icons.Default.ArrowDropDown,
+                painter = painterResource(id = android.R.drawable.arrow_down_float),
                 contentDescription = "Change address"
             )
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
-    onSearch: () -> Unit,
+    onSearch: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextField(
         value = query,
         onValueChange = onQueryChange,
-        placeholder = { Text("Food, groceries, drinks, etc.") },
         modifier = modifier.fillMaxWidth(),
+        placeholder = { Text("Food, groceries, drinks, etc.") },
         leadingIcon = {
             Icon(
-                imageVector = Icons.Default.Search,
+                painter = painterResource(id = android.R.drawable.ic_menu_search),
                 contentDescription = "Search"
             )
         },
-        trailingIcon = {
-            IconButton(onClick = onSearch) {
-                Icon(
-                    imageVector = Icons.Default.Send,
-                    contentDescription = "Search"
-                )
-            }
-        },
-        singleLine = true
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(onSearch = { onSearch(query) })
     )
 }
 
-val sampleRestaurantsEn = listOf(
-    Restaurant(
-        R.drawable.restaurant_1,
-        "Egg Benedict with Capsicum",
-        "2.2 miles away",
-        4.9f,
-        1100,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    ),
-    Restaurant(
-        R.drawable.restaurant_2,
-        "Kashmiri Biryani and Ka",
-        "2.2 miles away",
-        4.9f,
-        1100,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    ),
-    Restaurant(
-        R.drawable.restaurant_1,
-        "Spicy Thai",
-        "1.5 miles away",
-        4.7f,
-        950,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    )
-)
-
-val sampleFoodItemsEn = listOf(
-    Food("Naked Jackfruit Burrito Bowl", "2.2 miles away", 4.9f, 1100, "\$20.00"),
-    Food("NY Chicken Roll - Large", "2.2 miles away", 4.9f, 1100, "\$20.00"),
-    Food("Kochchi Prawn Spaghetti", "2.2 miles away", 4.9f, 1100, "\$20.00"),
-    Food("Double Chicken & Cheese Fiesta - Pizza", "2.2 miles away", 4.9f, 1100, "\$20.00")
-)
-
-// Sample data in Spanish
-val sampleFoodTypesEs = listOf(
-    FoodType(R.drawable.burger, "Hamburguesa"),
-    FoodType(R.drawable.pizza, "Pizza"),
-    FoodType(R.drawable.taco, "Mexicano"),
-    FoodType(R.drawable.chicken_fingers, "Pollo"),
-    FoodType(R.drawable.burger, "Indio")
-)
-
-val sampleRestaurantsEs = listOf(
-    Restaurant(
-        R.drawable.restaurant_1,
-        "Huevos Benedictinos con Pimiento",
-        "3,5 km de distancia",
-        4.9f,
-        1100,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    ),
-    Restaurant(
-        R.drawable.restaurant_2,
-        "Biryani de Cachemira y Ka",
-        "3,5 km de distancia",
-        4.9f,
-        1100,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    ),
-    Restaurant(
-        R.drawable.restaurant_1,
-        "Tailandés Picante",
-        "2,4 km de distancia",
-        4.7f,
-        950,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    )
-)
-
-val sampleFoodItemsEs = listOf(
-    Food("Burrito de Jaca Desnuda", "3,5 km de distancia", 4.9f, 1100, "18,00 €"),
-    Food("Rollo de Pollo NY - Grande", "3,5 km de distancia", 4.9f, 1100, "18,00 €"),
-    Food("Espaguetis de Gambas Kochchi", "3,5 km de distancia", 4.9f, 1100, "18,00 €"),
-    Food("Fiesta de Pollo y Queso Doble - Pizza", "3,5 km de distancia", 4.9f, 1100, "18,00 €")
-)
-
-// Sample data in Arabic
-val sampleFoodTypesAr = listOf(
-    FoodType(R.drawable.burger, "برغر"),
-    FoodType(R.drawable.pizza, "بيتزا"),
-    FoodType(R.drawable.taco, "مكسيكي"),
-    FoodType(R.drawable.chicken_fingers, "دجاج"),
-    FoodType(R.drawable.burger, "هندي")
-)
-
-val sampleRestaurantsAr = listOf(
-    Restaurant(
-        R.drawable.restaurant_1,
-        "بيض بينديكت مع الفلفل",
-        "على بعد 3.5 كم",
-        4.9f,
-        1100,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    ),
-    Restaurant(
-        R.drawable.restaurant_2,
-        "برياني كشميري و كا",
-        "على بعد 3.5 كم",
-        4.9f,
-        1100,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    ),
-    Restaurant(
-        R.drawable.restaurant_1,
-        "تايلندي حار",
-        "على بعد 2.4 كم",
-        4.7f,
-        950,
-        listOf("American", "Breakfast", "Brunch"),
-        "Indulge in our signature Egg Benedict, perfectly poached eggs atop a toasted English muffin, layered with Canadian bacon and drizzled with creamy hollandaise sauce. A sprinkle of fresh capsicum adds a delightful crunch and flavor to this classic breakfast dish."
-    )
-)
-
-val sampleFoodItemsAr = listOf(
-    Food("بوريتو جاك فروت المكشوف", "على بعد 3.5 كم", 4.9f, 1100, "75.00 ريال"),
-    Food("لفة دجاج نيويورك - كبيرة", "على بعد 3.5 كم", 4.9f, 1100, "75.00 ريال"),
-    Food("سباغيتي الروبيان كوتشي", "على بعد 3.5 كم", 4.9f, 1100, "75.00 ريال"),
-    Food("بيتزا - مهرجان الدجاج والجبن المزدوج", "على بعد 3.5 كم", 4.9f, 1100, "75.00 ريال")
-)
-
-@Preview(showBackground = true, widthDp = 360, heightDp = 640)
+@Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    MaterialTheme {
-        HomeScreen(
-            foodTypes = sampleFoodTypes,
-            restaurants = sampleRestaurants,
-            foodItems = sampleFoodItems
+    val sampleData = HomeScreenData(
+        foodCategories = listOf(
+            FoodCategory(R.drawable.burger, "Burger"),
+            FoodCategory(R.drawable.pizza, "Pizza"),
+            FoodCategory(R.drawable.taco, "Taco"),
+            FoodCategory(R.drawable.chicken_fingers, "Chicken")
+        ),
+        nearbyRestaurants = listOf(
+            Restaurant(R.drawable.restaurant_1, "Egg Benedict", "2.2 away from you", 4.9f, 1100, listOf("American", "Breakfast"), "Delicious egg dishes"),
+            Restaurant(R.drawable.restaurant_2, "Kashmiri Biryani", "2.2 away from you", 4.9f, 1100, listOf("Indian", "Rice"), "Aromatic rice dish")
+        ),
+        recommendedFoodItems = listOf(
+            FoodItem(R.drawable.food_item_1, "Naked Jackfruit Burrito Bowl", "Vegan bowl", 4.9f, 1100, "\$20.00", "2.2 away from you"),
+            FoodItem(R.drawable.food_item_2, "NY Chicken Roll", "Large size", 4.9f, 1100, "\$20.00", "2.2 away from you"),
+            FoodItem(R.drawable.food_item_3, "Kochchi Prawn Spaghetti", "Spicy seafood pasta", 4.9f, 1100, "\$22.00", "2.2 away from you"),
+            FoodItem(R.drawable.food_item_4, "Double Chicken & Cheese Fiesta", "Pizza - Large", 4.9f, 1100, "\$25.00", "2.2 away from you")
         )
-    }
-}
-@Preview(name = "English", showBackground = true, widthDp = 360, heightDp = 640)
-@Composable
-fun HomeScreenPreviewEnglish() {
+    )
+
     MaterialTheme {
-        HomeScreen(
-            foodTypes = sampleFoodTypes,
-            restaurants = sampleRestaurantsEn,
-            foodItems = sampleFoodItemsEn
-        )
+        HomeScreen(data = sampleData)
     }
 }
 
-@Preview(name = "Spanish", showBackground = true, widthDp = 360, heightDp = 640)
+// Spanish sample data
+val spanishSampleData = HomeScreenData(
+    foodCategories = listOf(
+        FoodCategory(R.drawable.burger, "Hamburguesa"),
+        FoodCategory(R.drawable.pizza, "Pizza"),
+        FoodCategory(R.drawable.taco, "Taco"),
+        FoodCategory(R.drawable.chicken_fingers, "Pollo")
+    ),
+    nearbyRestaurants = listOf(
+        Restaurant(R.drawable.restaurant_1, "Huevos Benedictinos", "A 2,2 km de ti", 4.9f, 1100, listOf("Americano", "Desayuno"), "Deliciosos platos de huevo"),
+        Restaurant(R.drawable.restaurant_2, "Paella Valenciana", "A 2,2 km de ti", 4.9f, 1100, listOf("Español", "Arroz"), "Auténtica paella española")
+    ),
+    recommendedFoodItems = listOf(
+        FoodItem(R.drawable.food_item_1, "Burrito de Jackfruit", "Bowl vegano", 4.9f, 1100, "20,00 €", "A 2,2 km de ti"),
+        FoodItem(R.drawable.food_item_2, "Rollito de Pollo NY", "Tamaño grande", 4.9f, 1100, "20,00 €", "A 2,2 km de ti"),
+        FoodItem(R.drawable.food_item_3, "Espaguetis con Gambas Picantes", "Pasta de mariscos picante", 4.9f, 1100, "22,00 €", "A 2,2 km de ti"),
+        FoodItem(R.drawable.food_item_4, "Fiesta de Pollo y Queso Doble", "Pizza - Grande", 4.9f, 1100, "25,00 €", "A 2,2 km de ti")
+    )
+)
+
+// Japanese sample data
+val japaneseSampleData = HomeScreenData(
+    foodCategories = listOf(
+        FoodCategory(R.drawable.burger, "ハンバーガー"),
+        FoodCategory(R.drawable.pizza, "ピザ"),
+        FoodCategory(R.drawable.taco, "タコス"),
+        FoodCategory(R.drawable.chicken_fingers, "チキン")
+    ),
+    nearbyRestaurants = listOf(
+        Restaurant(R.drawable.restaurant_1, "エッグベネディクト", "2.2km先", 4.9f, 1100, listOf("アメリカン", "朝食"), "美味しい卵料理"),
+        Restaurant(R.drawable.restaurant_2, "カレーライス", "2.2km先", 4.9f, 1100, listOf("日本", "カレー"), "本格的な日本のカレー")
+    ),
+    recommendedFoodItems = listOf(
+        FoodItem(R.drawable.food_item_1, "ジャックフルーツのブリトーボウル", "ビーガン向け", 4.9f, 1100, "2,000円", "2.2km先"),
+        FoodItem(R.drawable.food_item_2, "NYチキンロール", "大サイズ", 4.9f, 1100, "2,000円", "2.2km先"),
+        FoodItem(R.drawable.food_item_3, "海老のスパイシーパスタ", "スパイシーシーフードパスタ", 4.9f, 1100, "2,200円", "2.2km先"),
+        FoodItem(R.drawable.food_item_4, "ダブルチキン＆チーズフィエスタ", "ピザ - ラージ", 4.9f, 1100, "2,500円", "2.2km先")
+    )
+)
+
+@Preview(showBackground = true, name = "Home Screen (Spanish)")
 @Composable
 fun HomeScreenPreviewSpanish() {
     MaterialTheme {
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-            HomeScreen(
-                foodTypes = sampleFoodTypesEs,
-                restaurants = sampleRestaurantsEs,
-                foodItems = sampleFoodItemsEs
-            )
-        }
+        HomeScreen(data = spanishSampleData)
     }
 }
 
-@Preview(name = "Arabic", showBackground = true, widthDp = 360, heightDp = 640)
+@Preview(showBackground = true, name = "Home Screen (Japanese)")
 @Composable
-fun HomeScreenPreviewArabic() {
+fun HomeScreenPreviewJapanese() {
     MaterialTheme {
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            HomeScreen(
-                foodTypes = sampleFoodTypesAr,
-                restaurants = sampleRestaurantsAr,
-                foodItems = sampleFoodItemsAr
-            )
-        }
+        HomeScreen(data = japaneseSampleData)
     }
 }
